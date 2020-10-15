@@ -1,27 +1,26 @@
 package com.hsl.dao;
 
-import java.util.List;
-
 import com.hsl.model.Department;
 import com.hsl.model.DepartmentExample;
-import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-@Mapper
 public interface DepartmentMapper {
     long countByExample(DepartmentExample example);
 
     int deleteByExample(DepartmentExample example);
 
     int deleteByPrimaryKey(Integer depid);
-
     int deleteAllDepartment();
 
     int insert(Department record);
 
-    int insertSelective(Department record);
+    int insertSelective(int record);
 
     List<Department> selectByExample(DepartmentExample example);
+
+    List<Department> selectAllDep();
+
 
     Department selectByPrimaryKey(Integer depid);
 

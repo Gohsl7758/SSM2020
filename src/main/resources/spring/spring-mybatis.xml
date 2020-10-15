@@ -26,6 +26,27 @@
 
     <context:component-scan base-package="com.hsl"/>
 
+
+    <bean id="pageInterceptor" class="com.github.pagehelper.PageHelper">
+
+        <property name="properties">
+
+            <props>
+
+                <prop key="helperDialect">mysql</prop>
+
+                <prop key="reasonable">true</prop>
+
+                <prop key="supportMethodsArguments">true</prop>
+
+                <prop key="params">count=countSql</prop>
+
+            </props>
+
+        </property>
+
+    </bean>
+
     <!--引入properties文件-->
 
     <bean id="placeholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -85,6 +106,7 @@
         <!-- 自动扫描mapping.xml文件 -->
 
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <property name="plugins" ref="pageInterceptor"></property>
 
     </bean>
 

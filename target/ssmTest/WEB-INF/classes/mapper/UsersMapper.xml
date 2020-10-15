@@ -87,6 +87,11 @@
     from user
     where uid = #{uid,jdbcType=INTEGER}
   </select>
+  <select id="selectAllUsers" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    *
+    from user where depid=#{depid,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
     where uid = #{uid,jdbcType=INTEGER}
@@ -97,9 +102,12 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <delete id="deleteAllUser" parameterType="java.lang.Integer">
+
+  <delete id="deleteAllUser" >
     delete from user
+
   </delete>
+
   <insert id="insert" parameterType="com.hsl.model.Users">
     insert into user (uid, username, depid
       )
