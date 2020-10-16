@@ -8,11 +8,11 @@
 
 <%@ page language="java" contentType="text/html; charset=utf-8"
 
-         pageEncoding="utf-8"%>
+         pageEncoding="utf-8" %>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -32,39 +32,107 @@
         //     // alert(dom.value);
         // }
 
-        $(document).ready(function(){
+        $(document).ready(function () {
+            var flag=false;
 
-            $(".depname").blur(function(){
-                var depid=$(this).prev().val();
-                var depname=$(this).val();
-                // alert(depid)
-                // alert(depname)
-                if (this.value == ""){
-                    var value=$(this).next().val();
-                    $(this).val(value)
-                }
-                $.ajax({
-                    type:"post",
-                    url:"/hsl/alert",
-                    dataType:"json",
-                    contentType: "application/json;charset=UTF-8",
-                    data:JSON.stringify({
-                        depid:depid,
-                        depname:depname
-                    }),
-                    success:function(data){
-                        alert(data)
-                        if (data){
-                            alert("用户名已存在");
-                        }
-                        alert("success");
-                    },
-                    error:function(jqXHR){
-                        alert(this.url)
-                        alert("error");
+            $(".depname").keydown(function (e) {
+                var curKey = e.which;
+                if (curKey == 13) {
+                    var depid = $(this).prev().val();
+
+                    if (this.value == "") {
+                        var value = $(this).next().val();
+                        $(this).val(value)
                     }
-                });
+                    var depname = $(this).val();
+                    var dom=$(this);
+                    // alert(depid)
+                    // alert(depname)
+                    $.ajax({
+                        type: "post",
+                        url: "/hsl/alert",
+                        dataType: "json",
+                        contentType: "application/json;charset=UTF-8",
+                        data: JSON.stringify({
+                            depid: depid,
+                            depname: depname
+                        }),
+                        // beforeSend: function (xhr) {
+                        //     // 在所有发送请求的操作（open, send）之前执行
+                        //     console.log('beforeSend'),
+                        // },
+                        success: function (data) {
+                            // alert(data)
+                            if (!data) {
+                                flag = true;
+                                alert("用户名已存在");
+                            } else {
+                                // alert("depname"+depname);
+                                // alert(dom.next().val(depname))
+                                dom.next().val(depname)
+                                dom.val(depname)
+                                flag = true;
+                                alert("修改完毕")
+                            }
+                            // alert("success");
+                        },
+                        error: function (jqXHR) {
+                            // alert(this.url)
+                            alert("error");
+                        }
+                    });
+                }
             });
+
+            $(".depname").blur(function () {
+
+                var value = $(this).next().val();
+                $(this).val(value)
+
+            });
+
+            $(".depname").focus(function () {
+                if (!flag){
+                    $(this).val("")
+                }
+                flag=false;
+            });
+
+            // $(".depname").blur(function(){
+            //     var depid=$(this).prev().val();
+            //     // alert(depid)
+            //     // alert(depname)
+            //     if (this.value == ""){
+            //         var value=$(this).next().val();
+            //         $(this).val(value)
+            //     }
+            //     var depname=$(this).val();
+            //     $.ajax({
+            //         type:"post",
+            //         url:"/hsl/alert",
+            //         dataType:"json",
+            //         contentType: "application/json;charset=UTF-8",
+            //         data:JSON.stringify({
+            //             depid:depid,
+            //             depname:depname
+            //         }),
+            //         // beforeSend: function (xhr) {
+            //         //     // 在所有发送请求的操作（open, send）之前执行
+            //         //     console.log('beforeSend'),
+            //         // },
+            //         success:function(data){
+            //             alert(data)
+            //             if (!data){
+            //                 alert("用户名已存在");
+            //             }
+            //             // alert("success");
+            //         },
+            //         error:function(jqXHR){
+            //             // alert(this.url)
+            //             alert("error");
+            //         }
+            //     });
+            // });
         });
 
     </script>
@@ -73,8 +141,6 @@
 </head>
 
 <body>
-
-index<br/>
 
 
 <table border="1" width="500" align="center">
@@ -85,11 +151,12 @@ index<br/>
     <%--数据行--%>
     <c:forEach items="${deps.rows}" var="dep" varStatus="s">
         <c:if test="${s.count!=0}">
-            <a href="users?depid=${dep.depid}">
                 <tr>
                     <td>${dep.depid}</td>
-                    <td><input type="hidden" value=${dep.depid}><input class="depname" value=${dep.depname}  type="text" onfocus="if (value ==this.value){value =''}"  /><input id="temp" type="hidden" value=${dep.depname}></td>
-
+                    <td><input type="hidden" value=${dep.depid}><input class="depname" value=${dep.depname}  type="text"
+                                                                       /><input
+                            id="temp" type="hidden" value=${dep.depname}></td>
+                    <td><button onclick="window.location.href='users?depid=${dep.depid}'">部门员工</button></td>
                 </tr>
             </a>
         </c:if>
@@ -98,7 +165,7 @@ index<br/>
 
 <div height="24"></div>
 
-<table  width="461" height="24" border="1" cellpadding="0" cellspacing="0" align="center">
+<table width="461" height="24" border="1" cellpadding="0" cellspacing="0" align="center">
     <tr>
         <td width="199" maxFractionDigits="0">当前为第${deps.page}页,共${Math.round(deps.total/deps.size)}页</td>
         <td width="256">

@@ -90,6 +90,12 @@
     select *
     from department
   </select>
+
+  <select id="selectByDepname" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from department where depname = #{depname,jdbcType=VARCHAR}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from department
     where depid = #{depid,jdbcType=INTEGER}

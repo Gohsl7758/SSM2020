@@ -81,9 +81,10 @@ public class DepControl {
     @RequestMapping("alert")
     @ResponseBody
     public int alertDep(@RequestBody Department dep) {
-        System.out.println(dep.getDepid()+dep.getDepname());
-        Department department=departmentService.selectDepById(dep.getDepid());
-        if(department!=null){
+//        System.out.println(dep.getDepid()+dep.getDepname());
+        Department flag=departmentService.selectDepByName(dep.getDepname());
+//        System.out.println("Department"+flag);
+        if(flag !=null){
             return 0;
         }else {
             departmentService.alertDep(dep);

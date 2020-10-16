@@ -21,6 +21,7 @@ public interface DepartmentMapper {
 
     List<Department> selectAllDep();
 
+    Department selectByDepname(String depname);
 
     Department selectByPrimaryKey(Integer depid);
 

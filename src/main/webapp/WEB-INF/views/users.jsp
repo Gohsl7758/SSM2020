@@ -28,11 +28,12 @@
 
 <body>
 
-index<br/>
+
 <table border="1" width="500" align="center">
     <tr>
         <th>uid</th>
         <th>uname</th>
+        <th>depid</th>
     </tr>
     <%--数据行--%>
     <c:forEach items="${users.rows}" var="user" varStatus="s">

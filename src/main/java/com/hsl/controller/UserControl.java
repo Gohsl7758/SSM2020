@@ -16,7 +16,7 @@ public class UserControl {
 
     @RequestMapping("users")
     public ModelAndView showUsers(@RequestParam(value = "depid") String depid){
-        System.out.println("depid"+depid);
+//        System.out.println("depid"+depid);
         Pager pager=pageService.findUsersByPager(1,50,Integer.parseInt(depid));
         ModelAndView m = new ModelAndView();
         // 存储list

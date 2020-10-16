@@ -26,8 +26,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department selectDepById(int depid) {
-        return departmentMapper.selectByPrimaryKey(depid);
+    public Department selectDepByName(String depname) {
+        return departmentMapper.selectByDepname(depname);
     }
 
     @Override
